@@ -16,7 +16,7 @@ As of now, BookBrainz only supports adding data to the database manually through
 
 The following text taken from [here](https://wiki.musicbrainz.org/Development/Summer_of_Code/2018/BookBrainz) sheds light on the plan developed my _Leftmost_ and _Sputnik_ regarding this matter.
 
-> At last year's summit, the two BookBrainz lead developers, Leftmost and LordSputnik worked on a plan for importing third party data into BookBrainz. This plan has several stages. First, data sources need to be identified, including mass import sources with freely available data, such as libraries, and manual import sources, such as online book stores and other user-contributed databases. The next stage is to update the database to introduce an "Import" object, which can be used to distinguish mass imported data from (usually better quality) user contributions. Then, actual import bots for mass import and userscripts for manual import will need to be written. Finally, it would desirable (but not necessary if time is short) to introduce an interface to the BookBrainz site to allow users to review automatically imported data, and approve it.
+> At last year's summit, the two BookBrainz lead developers, Leftmost and LordSputnik worked on a plan for importing third-party data into BookBrainz. This plan has several stages. First, data sources need to be identified, including mass import sources with freely available data, such as libraries, and manual import sources, such as online bookstores and other user-contributed databases. The next stage is to update the database to introduce an "Import" object, which can be used to distinguish mass imported data from (usually better quality) user contributions. Then, actual import bots for mass import and userscripts for manual import will need to be written. Finally, it would desirable (but not necessary if time is short) to introduce an interface to the BookBrainz site to allow users to review automatically imported data, and approve it.
 
 
 As mentioned in the text above, we can work on this project dividing it into a few distinct stages. 
@@ -39,7 +39,7 @@ CREATE TABLE bookbrainz.source (
 );
 ```
 
-As we will be creating new entities from the imported data, we will need to specify the source in the stored data. For that, we will be modifying the entity table, adding two additional fields to it. One of the fields will indicate whether the entity is an imported one or user-contributed one. The other will point to the source in the case it is an imported one. Corresponding schema is outlined below. 
+As we will be creating new entities from the imported data, we will need to specify the source in the stored data. For that, we will be modifying the entity table, adding two additional fields to it. One of the fields will indicate whether the entity is an imported one or user-contributed one. The other will point to the source in the case it is an imported one. The corresponding schema is outlined below. 
 
 ```sql
 CREATE TABLE bookbrainz.entity (
@@ -74,7 +74,7 @@ $ python insert.py -d librarything-2018-03-15T20:34:17+00:00.json
 ```
 
 Things to note here.
-- The JSON files inside the dumps folder are of very well-specified format, and are machine-generated.
+- The JSON files inside the dumps folder are of very well-specified format and are machine-generated.
 - The importer scripts are free to import the data in whatever way they prefer. Possibilities include
     - Downloading and then reading a data dump file, such as the ones provided [here](https://openlibrary.org/developers/dumps) by OpenLibrary.
     - Accessing a web API.
@@ -87,18 +87,18 @@ While inserting entries into the database from the data dumps, we will have to t
 - Avoid duplicate entries
 - Resolve conflicting entries
 
-For this, the `insert.py` script can do the following. Before inserting, check if the database already has an entry for the same item. It it has, and if the data is conflicting (i.e the values stored in the database and the values imported do not match), save it seperately for manual confirmation by an user. It can either be stored in a seperate table in the database, or in a JSON file (something like _conflicts.json_). 
+For this, the `insert.py` script can do the following. Before inserting, check if the database already has an entry for the same item. If it has, and if the data is conflicting (i.e the values stored in the database and the values imported do not match), save it separately for manual confirmation by a user. It can either be stored in a separate table in the database, or in a JSON file (something like _conflicts.json_). 
 
 ![Pipeline](images/pipeline.png)
 
 ### Identifying data sources and writing importers
 
-This step would involve researching about available sources for data, having a permissive license. Writing the importer scripts for those sources will have to done parallely with this. Also, this stage can continue indefinitely, i.e new developers joining the project later on can keep extending this part of the pipeline.
+This step would involve researching about available sources for data, having a permissive license. Writing the importer scripts for those sources will have to done parallelly with this. Also, this stage can continue indefinitely, i.e new developers joining the project later on, can keep extending this part of the pipeline.
 
 ## Infrastructure to be used.
 
 - We will be writing all the scripts (importers and _insert.py_) in Python.
-- For CLI facilites of the scripts, the `argparse` library will be used.
+- For CLI facilities of the scripts, the `argparse` library will be used.
 - For interaction with the database, we can use something like [peewee](http://peewee-orm.com). It's a simple and clean ORM for Python. If it turns out to be inadequate, we can fall back to SQLAlchemy.
 - For writing test suites, [pytest](https://pytest.org) could be used.
 - For documentation, [Sphinx](http://sphinx-doc.org) along with [Read the Docs](https://readthedocs.org/) is an excellent solution.
