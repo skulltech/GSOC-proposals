@@ -89,6 +89,7 @@ While inserting entries into the database from the data dumps, we will have to t
 
 For this, the `insert.py` script can do the following. Before inserting, check if the database already has an entry for the same item. It it has, and if the data is conflicting (i.e the values stored in the database and the values imported do not match), save it seperately for manual confirmation by an user. It can either be stored in a seperate table in the database, or in a JSON file (something like _conflicts.json_). 
 
+![Pipeline](images/pipeline.png)
 
 ### Identifying data sources and writing importers
 
