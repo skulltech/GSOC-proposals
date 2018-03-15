@@ -24,7 +24,7 @@ As mentioned in the text above, we can work on this project dividing it into a f
 1. Updating the database schema.
 2. Designing and creating the pipeline for importing and inserting data into the DB.
 3. Identifying data sources and writing the importer for those sources.
-4. Making a web interface for users to review conflicts.
+4. (if time permits) Making a web interface for users to review conflicts.
 
 ### Updating the database schema
 
@@ -95,4 +95,30 @@ For this, the `insert.py` script can do the following. Before inserting, check i
 
 This step would involve researching about available sources for data, having a permissive license. Writing the importer scripts for those sources will have to done parallely with this. Also, this stage can continue indefinitely, i.e new developers joining the project later on can keep extending this part of the pipeline.
 
-### Making a web interface for reviewing conflicts
+## Infrastructure to be used.
+
+- We will be writing all the scripts (importers and _insert.py_) in Python.
+- For CLI facilites of the scripts, the `argparse` library will be used.
+- For interaction with the database, we can use something like [peewee](http://peewee-orm.com). It's a simple and clean ORM for Python. If it turns out to be inadequate, we can fall back to SQLAlchemy.
+- For writing test suites, [pytest](https://pytest.org) could be used.
+- For documentation, [Sphinx](http://sphinx-doc.org) along with [Read the Docs](https://readthedocs.org/) is an excellent solution.
+- For any potential scraping and crawling, the [Scrapy](https://scrapy.org/) framework can be used.
+
+## Timeline breakdown
+
+The total coding time for SoC is 12 weeks, divided into 3 phases. 
+
+__Timeline__
+
+1. Updating the database schema. Week 1
+2. Designing and creating the data import pipeline. Weeks 2 to 4.
+
+_Phase 1 evaluation._
+
+3. Identifying data sources and writing importers. Weeks 5 to 8.
+
+_Phase 2 evaluation._
+
+4. Making a web interface for users to review conflicts. Weeks 9 to 12.
+
+_Final evaluation._
