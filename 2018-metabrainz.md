@@ -33,7 +33,16 @@ On the database side, a new table for storing the sources will be created. It wi
 CREATE TABLE bookbrainz.source (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(64) NOT NULL UNIQUE CHECK (name <> ''),
-	url VARCHAR(64) NOT NULL DEFAULT '',
+	url TEXT NOT NULL DEFAULT '',
+	description TEXT NOT NULL DEFAULT '',
+);
+```
+
+```sql
+CREATE TABLE bookbrainz.import (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(64) NOT NULL UNIQUE CHECK (name <> ''),
+	url TEXT NOT NULL DEFAULT '',
 	description TEXT NOT NULL DEFAULT '',
 );
 ```
@@ -88,7 +97,7 @@ While inserting entries into the database from the data dumps, we will have to t
 
 For this, the `insert.py` script can do the following. Before inserting, check if the database already has an entry for the same item. If it has, and if the data is conflicting (i.e the values stored in the database and the values imported do not match), save it separately for manual confirmation by a user. It can either be stored in a separate table in the database, or in a JSON file (something like _conflicts.json_). 
 
-![pipeline|690x233](images/pipeline.png)
+![pipeline](images/pipeline.png)
 
 ### Identifying data sources and writing importers
 
